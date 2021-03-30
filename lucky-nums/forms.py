@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SelectField
-from wtforms.validators import DataRequired, Email, NumberRange
+from wtforms import Form, StringField, IntegerField, SelectField
+from wtforms.validators import DataRequired, Email, NumberRange, InputRequired
 
 class UserForm(FlaskForm):
-    name = StringField('Name', validators=[InputRequired("Enter Your Name")])
-    email = StringField('Email', validators=[DataRequired("Enter Your Email"), Email("This field requires a valid email")])
-    year = SelectField('Birth Year', choices=[(year, year) for year in range(1900,2001)], validators=[InputRequired("Enter a year between 1900-2001")])
-    color = SelectField('Color', choices=[('red', 'red'), ('green', 'green'), ('orange', 'orange'), ('blue', 'blue')], validators={InputRequired("Available options are red, green, orange, blue.")})
+    name = StringField("User Name", validators=[InputRequired(message="User name can't be blank.")])
+    email = StringField("Email", validators=[InputRequired(message="Email can't be blank."), Email()])
+    year = IntegerField("Birth Year", validators=[InputRequired(message="Birth year can't be blank."), NumberRange(min=1900, max=2020, message="Birth year must be between %(min)s and %(max)s.")])
+    color = SelectField("Color", validators=[InputRequired(message="Color can't be blank.")], choices=[(
+        'red', 'red'), ('green', 'green'), ('orange', "orange"), ('blue', "blue")])
